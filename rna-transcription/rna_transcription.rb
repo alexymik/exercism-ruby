@@ -2,25 +2,17 @@ class InvalidNucleotideError < StandardError; end
 
 class Complement
   def self.of_dna(dna_strand)
-    rna_array = []
-
-    string_to_array(dna_strand).each do |nucleotide|
+    string_to_array(dna_strand).inject('') do |rna_strand, nucleotide|
       begin
-        rna_array << dna_to_rna(nucleotide)
+        rna_strand << dna_to_rna(nucleotide)
       rescue InvalidNucleotideError
         return ''
       end
     end
-
-    array_to_string rna_array
   end
 
   def self.string_to_array(string)
     string.split('')
-  end
-
-  def self.array_to_string(array)
-    array.join('')
   end
 
   def self.dna_to_rna(nucleotide)
